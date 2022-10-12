@@ -24,12 +24,17 @@ function generateExports(struct) {
     const { identifier } = struct.structName;
     const inputName = `${identifier}${common_1.STRUCT_INPUT_POSTFIX}`;
     const outputName = `${identifier}${common_1.STRUCT_OUTPUT_POSTFIX}`;
+    const outputNameArray = `${outputName}Array`;
+    const outputNameObject = `${outputName}Struct`;
     const inputType = (0, types_1.codegenInputType)({ useStructs: false }, struct);
     const outputType = (0, types_1.codegenOutputType)({ useStructs: false }, struct);
+    const [outputTypeArray, outputTypeObject] = outputType.split('&');
     return `
     export type ${inputName} = ${inputType}
 
-    export type ${outputName} = ${outputType}
+    export type ${outputNameArray} = ${outputTypeArray}
+    export type ${outputNameObject} = ${outputTypeObject}
+    export type ${outputName} = ${outputNameArray} & ${outputNameObject}
   `;
 }
 //# sourceMappingURL=structs.js.map
